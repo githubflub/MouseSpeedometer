@@ -1,0 +1,9 @@
+D:\projects\MouseSpeedometer\bin\Debug\MouseSpeedometer.exe.config
+D:\projects\MouseSpeedometer\bin\Debug\MouseSpeedometer.exe
+D:\projects\MouseSpeedometer\bin\Debug\MouseSpeedometer.pdb
+D:\projects\MouseSpeedometer\obj\Debug\MouseSpeedometer.csprojResolveAssemblyReference.cache
+D:\projects\MouseSpeedometer\obj\Debug\MouseSpeedometer.Properties.Resources.resources
+D:\projects\MouseSpeedometer\obj\Debug\MouseSpeedometer.csproj.GenerateResource.Cache
+D:\projects\MouseSpeedometer\obj\Debug\MouseSpeedometer.exe
+D:\projects\MouseSpeedometer\obj\Debug\MouseSpeedometer.pdb
+D:\projects\MouseSpeedometer\obj\Debug\MouseSpeedometer.MouseSpeedometerForm.resources
