@@ -32,12 +32,6 @@ namespace MouseSpeedometer
             this.mouse.RegisterRawInputMouse(Handle); // Register mouse with operating system. 
             this.mouse.hnms += new MouseModel.NewMaxSpeedHandler(this.updateMaxSpeedReadout);
             this.mouse.hncs += new MouseModel.NewCurrentSpeedHandler(this.updateCurrentSpeedReadout); 
-
-            // Start readouts using a timer
-            readoutTimer = new Timer();
-            readoutTimer.Tick += new EventHandler(update_readouts);
-            readoutTimer.Interval = 100;
-            readoutTimer.Start(); 
         }
 
         /**
@@ -52,28 +46,35 @@ namespace MouseSpeedometer
             base.WndProc(ref m);
         }
 
+        private void set_cpi_warning(Label lbl)
+        {
+            int fontsize = 8; 
+            lbl.Font = new Font(lbl.Font.FontFamily, fontsize);
+            lbl.Text = "Set CPI first";
+        }
+
         private void updateMaxSpeedReadout(object MouseModel, double new_max_speed)
         {
             // if CPI hasn't been set, cancel. 
-            if (mouse.get_cpi() <= 0)
+            if (mouse.cpiNotSet())
             {
-                max_speed_readout_lbl.Text = "Set CPI first";
+                set_cpi_warning(max_speed_readout_lbl);
                 return; 
             }
 
-            max_speed_readout_lbl.Text = new_max_speed.ToString(); 
+            max_speed_readout_lbl.Text = new_max_speed.ToString("N3"); 
         }
 
         private void updateCurrentSpeedReadout(object MouseModel, double new_current_speed)
         {
             // if CPI hasn't been set, cancel. 
-            if (mouse.get_cpi() <= 0)
+            if (mouse.cpiNotSet())
             {
-                current_speed_readout_lbl.Text = "Set CPI first";
+                set_cpi_warning(current_speed_readout_lbl);
                 return;
             }
 
-            current_speed_readout_lbl.Text = new_current_speed.ToString(); 
+            current_speed_readout_lbl.Text = new_current_speed.ToString("N3"); 
         }
         
         private void set_cpi_button_click(object sender, EventArgs e)
@@ -86,7 +87,10 @@ namespace MouseSpeedometer
 
             if (set_cpi_result)
             {
-                cpi_readout_lbl.Text = set_cpi_input.Text; 
+                cpi_readout_lbl.Text = set_cpi_input.Text;
+                cpi_set_font_boost(current_speed_readout_lbl);
+                cpi_set_font_boost(max_speed_readout_lbl);
+
             }
             else
             {
@@ -94,7 +98,15 @@ namespace MouseSpeedometer
             }
         }
 
-        private void update_readouts(object sender, EventArgs e) {}
+        /**
+         * Makes readout label font bigger after CPI 
+         * has been set. 
+         */ 
+        private void cpi_set_font_boost(Label lbl)
+        {
+            int fontsize = 16;
+            lbl.Font = new Font(lbl.Font.FontFamily, fontsize);
+        }
 
         private void reset(object sender, EventArgs e)
         {

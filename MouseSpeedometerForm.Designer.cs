@@ -104,17 +104,17 @@
             // 
             // max_speed_readout_lbl
             // 
-            this.max_speed_readout_lbl.AutoSize = true;
-            this.max_speed_readout_lbl.Location = new System.Drawing.Point(133, 137);
+            this.max_speed_readout_lbl.Location = new System.Drawing.Point(132, 126);
             this.max_speed_readout_lbl.Name = "max_speed_readout_lbl";
-            this.max_speed_readout_lbl.Size = new System.Drawing.Size(62, 13);
+            this.max_speed_readout_lbl.Size = new System.Drawing.Size(71, 35);
             this.max_speed_readout_lbl.TabIndex = 7;
             this.max_speed_readout_lbl.Text = "Set CPI first";
+            this.max_speed_readout_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cpi_readout_lbl
             // 
             this.cpi_readout_lbl.AutoSize = true;
-            this.cpi_readout_lbl.Location = new System.Drawing.Point(133, 84);
+            this.cpi_readout_lbl.Location = new System.Drawing.Point(132, 84);
             this.cpi_readout_lbl.Name = "cpi_readout_lbl";
             this.cpi_readout_lbl.Size = new System.Drawing.Size(114, 13);
             this.cpi_readout_lbl.TabIndex = 8;
@@ -122,12 +122,12 @@
             // 
             // current_speed_readout_lbl
             // 
-            this.current_speed_readout_lbl.AutoSize = true;
-            this.current_speed_readout_lbl.Location = new System.Drawing.Point(133, 193);
+            this.current_speed_readout_lbl.Location = new System.Drawing.Point(132, 182);
             this.current_speed_readout_lbl.Name = "current_speed_readout_lbl";
-            this.current_speed_readout_lbl.Size = new System.Drawing.Size(62, 13);
+            this.current_speed_readout_lbl.Size = new System.Drawing.Size(70, 35);
             this.current_speed_readout_lbl.TabIndex = 9;
             this.current_speed_readout_lbl.Text = "Set CPI first";
+            this.current_speed_readout_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // reset_btn
             // 

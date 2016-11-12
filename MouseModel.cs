@@ -235,7 +235,7 @@ namespace MouseSpeedometer
             cpi_set = false; 
             max_speed = 0;
             current_speed = 0;
-            samples = new List<MouseDataPacket>(1000000);
+            samples = new List<MouseDataPacket>(100000);
 
             // set up timer
             timer1 = new Timer();
@@ -375,11 +375,17 @@ namespace MouseSpeedometer
             {
                 this.cpi = cpi;
                 this.cpi_set = true;
+                hnms(this, 0);
+                hncs(this, 0); 
                 this.timer1.Start(); 
                 return true;
             }
             this.cpi = 0;
             this.cpi_set = false;
+            this.max_speed = 0;
+            this.current_speed = 0; 
+            hnms(this, 0);
+            hncs(this, 0);
             this.timer1.Stop(); 
             return false;             
         }
@@ -402,7 +408,7 @@ namespace MouseSpeedometer
 
             /**
              * Sum every single X and Y.
-             * Get a direction vector from the results. 
+             * Get a distance vector from the results. 
              * Divide its magnitude by time elapsed. 
              */
             int x_sum = 0, y_sum = 0;
@@ -432,20 +438,16 @@ namespace MouseSpeedometer
             }
         }
 
-        public double get_current_speed()
-        {
-            return 0.0; 
-        }
-
-        public double get_max_speed()
-        {
-            return 0.0; 
-        }
-
+        /**
+         * for when you click the reset button
+         * on the GUI
+         */ 
         public void reset()
         {
             this.max_speed = 0;
             hnms(this, 0); 
         }
+
+        public bool cpiNotSet() { return !this.cpi_set; }
     }
 }
