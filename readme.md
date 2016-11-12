@@ -1,6 +1,9 @@
 Mouse Speedometer
 ===
 
+![Screenshot of MouseSpeedometer]
+(http://i.imgur.com/miDQdW3.png)
+
 Inspired by Microe1's MouseTester.  
 https://github.com/microe1/MouseTester
 
