@@ -46,8 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MouseController.cs" />
-    <Compile Include="MouseEvent.cs" />
+    <Compile Include="MouseDataPacket.cs" />
     <Compile Include="MouseModel.cs" />
     <Compile Include="MouseSpeedometerForm.cs">
       <SubType>Form</SubType>
@@ -55,7 +54,7 @@
     <Compile Include="MouseSpeedometerForm.Designer.cs">
       <DependentUpon>MouseSpeedometerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StartHere.cs" />
+    <Compile Include="MainEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MouseSpeedometerForm.resx">
       <DependentUpon>MouseSpeedometerForm.cs</DependentUpon>

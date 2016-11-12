@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-/* System.Windows.Forms.Timer used to update readouts every x seconds */ 
+/* System.Windows.Forms.Timer used to update readouts every x seconds */
 
 
 namespace MouseSpeedometer
@@ -23,11 +24,14 @@ namespace MouseSpeedometer
 
             // Start model
             mouse = new MouseModel();
+
             /**
              * I believe Handle is a reference to this program
              * for the operating system to use. 
              */ 
-            mouse.RegisterRawInputMouse(Handle); // Register mouse with operating system. 
+            this.mouse.RegisterRawInputMouse(Handle); // Register mouse with operating system. 
+            this.mouse.hnms += new MouseModel.NewMaxSpeedHandler(this.updateMaxSpeedReadout);
+            this.mouse.hncs += new MouseModel.NewCurrentSpeedHandler(this.updateCurrentSpeedReadout); 
 
             // Start readouts using a timer
             readoutTimer = new Timer();
@@ -48,7 +52,29 @@ namespace MouseSpeedometer
             base.WndProc(ref m);
         }
 
-        private void readoutTimer_tick(object sender, EventArgs e) {}
+        private void updateMaxSpeedReadout(object MouseModel, double new_max_speed)
+        {
+            // if CPI hasn't been set, cancel. 
+            if (mouse.get_cpi() <= 0)
+            {
+                max_speed_readout_lbl.Text = "Set CPI first";
+                return; 
+            }
+
+            max_speed_readout_lbl.Text = new_max_speed.ToString(); 
+        }
+
+        private void updateCurrentSpeedReadout(object MouseModel, double new_current_speed)
+        {
+            // if CPI hasn't been set, cancel. 
+            if (mouse.get_cpi() <= 0)
+            {
+                current_speed_readout_lbl.Text = "Set CPI first";
+                return;
+            }
+
+            current_speed_readout_lbl.Text = new_current_speed.ToString(); 
+        }
         
         private void set_cpi_button_click(object sender, EventArgs e)
         {
@@ -68,18 +94,11 @@ namespace MouseSpeedometer
             }
         }
 
-        private void update_readouts(object sender, EventArgs e)
-        {
-            // Check for improper CPI value             
-            if (mouse.get_cpi() <= 0)
-            {
-                max_speed_readout_lbl.Text = "Please set a CPI value";
-                current_speed_readout_lbl.Text = "Please set a CPI value";
-                return; 
-            }
+        private void update_readouts(object sender, EventArgs e) {}
 
-            max_speed_readout_lbl.Text = mouse.get_max_speed().ToString();
-            current_speed_readout_lbl.Text = mouse.get_current_speed().ToString();            
+        private void reset(object sender, EventArgs e)
+        {
+            mouse.reset(); 
         }
     }
 }

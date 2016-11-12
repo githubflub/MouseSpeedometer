@@ -37,10 +37,16 @@ namespace MouseSpeedometer
          */ 
         private const int RID_INPUT = 0x10000003;
 
+        /**
+         * Used to check if incoming data is mouse data. 
+         */
         private const int RIM_TYPEMOUSE = 0;
         private int cpi;
         private double max_speed;
         private double current_speed;
+        private bool cpi_set = false; 
+        private Timer timer1;
+        private List<MouseDataPacket> samples;
 
         /**
          * The following code has         * 
@@ -222,13 +228,37 @@ namespace MouseSpeedometer
                                            ref uint pcbSize,
                                            uint cbSizeHeader);
 
+        // Constructor
+        public MouseModel()
+        {
+            cpi = 0;
+            cpi_set = false; 
+            max_speed = 0;
+            current_speed = 0;
+            samples = new List<MouseDataPacket>(1000000);
+
+            // set up timer
+            timer1 = new Timer();
+            timer1.Tick += new EventHandler(update_current_speed);
+            timer1.Interval = 100; // 50 ms interval
+        }
+
+        /**
+         * Provide handlers for some custom events that we are going to fire. 
+         * 
+         */
+        public delegate void NewMaxSpeedHandler(object MouseModel, double new_max_speed);
+        public delegate void NewCurrentSpeedHandler(object MouseModel, double new_current_speed);
+        public NewMaxSpeedHandler hnms;
+        public NewCurrentSpeedHandler hncs; 
+
         /**
          * We've imported the method to register our raw input device
          * now we perform the registration using this method. 
          * 
          * 1. Create a RAWINPUTDEVICE structure
          * 2. register it with the operating system by calling the imported method.
-         */ 
+         */
         public void RegisterRawInputMouse(IntPtr hwnd)
         {
             /**
@@ -255,9 +285,6 @@ namespace MouseSpeedometer
                 Console.WriteLine("Successful registration!");
             }
         }
-
-        public delegate void MouseEventHandler(object Mouse, MouseEvent meventinfo); 
-        public MouseEventHandler mevent; 
 
         /**
          * System.Windows.Forms required to use Messasge.
@@ -319,17 +346,17 @@ namespace MouseSpeedometer
                         RAWINPUT rawinput = (RAWINPUT)Marshal.PtrToStructure(buffer, typeof(RAWINPUT));
 
                         /**
-                         * If the raw data is coming from the mouse
+                         * If the raw data is coming from the mouse, then 
+                         * we can call the .mouse property and its .lLastX and
+                         * .lLastY properites. 
                          */ 
                         if (rawinput.header.dwType == RIM_TYPEMOUSE)
                         {
-                            // Create a mouse event and fire it. 
-
-                            // Create mouse event
-                            MouseEvent meventinfo = new MouseEvent(rawinput.mouse.lLastX, rawinput.mouse.lLastY);
-
-                            // Fire it 
-                            mevent(this, meventinfo); 
+                            //Debug.WriteLine(rawinput.mouse.lLastX + ", " + rawinput.mouse.lLastY);
+                            if (cpi_set == true)
+                            {
+                                samples.Add(new MouseDataPacket(rawinput.mouse.lLastX, rawinput.mouse.lLastY, 0.0));
+                            }
                         }
                     }
                 }
@@ -341,28 +368,68 @@ namespace MouseSpeedometer
             }
         }
 
-        // Constructor
-        public MouseModel()
-        {
-            cpi = 0;
-            max_speed = 0; 
-        }
-
         // Functions
         public bool set_cpi(int cpi)
         {            
             if (cpi > 0)
             {
                 this.cpi = cpi;
+                this.cpi_set = true;
+                this.timer1.Start(); 
                 return true;
             }
             this.cpi = 0;
+            this.cpi_set = false;
+            this.timer1.Stop(); 
             return false;             
         }
 
         public int get_cpi()
         {
             return cpi; 
+        }
+
+        private void update_current_speed(object sender, EventArgs e)
+        {
+            // update current speed             Debug.WriteLine(samples.Count); 
+
+            /**
+             * If there are less than 2 samples in the array, then 
+             * we can't calculate a speed, so just report it as 0. 
+             * I can't imagine a situation where it wouldn't be 0 anyway. 
+             */
+            if (samples.Count < 2) { this.current_speed = 0; hncs(this, this.current_speed); return; }
+
+            /**
+             * Sum every single X and Y.
+             * Get a direction vector from the results. 
+             * Divide its magnitude by time elapsed. 
+             */
+            int x_sum = 0, y_sum = 0;
+            double distance, speed; 
+            foreach (MouseDataPacket mdp in samples)
+            {
+                x_sum = x_sum + mdp.getLastX();
+                y_sum = y_sum + mdp.getLastY(); 
+            }
+
+            // Use pythagorean theorem to get distance 
+            distance = Math.Sqrt(Math.Pow(x_sum, 2) + Math.Pow(y_sum, 2));
+            // speed in m/s
+            speed = (distance / timer1.Interval) * 1000 / this.cpi * 2.54 / 100;
+            this.current_speed = speed;
+            update_max_speed(speed);  
+            samples.Clear();
+            hncs(this, this.current_speed);
+        }
+
+        private void update_max_speed(double speed)
+        {
+            if (speed > this.max_speed )
+            {
+                this.max_speed = speed;
+                hnms(this, speed); 
+            }
         }
 
         public double get_current_speed()
@@ -373,6 +440,12 @@ namespace MouseSpeedometer
         public double get_max_speed()
         {
             return 0.0; 
+        }
+
+        public void reset()
+        {
+            this.max_speed = 0;
+            hnms(this, 0); 
         }
     }
 }

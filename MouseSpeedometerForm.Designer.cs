@@ -107,9 +107,9 @@
             this.max_speed_readout_lbl.AutoSize = true;
             this.max_speed_readout_lbl.Location = new System.Drawing.Point(133, 137);
             this.max_speed_readout_lbl.Name = "max_speed_readout_lbl";
-            this.max_speed_readout_lbl.Size = new System.Drawing.Size(35, 13);
+            this.max_speed_readout_lbl.Size = new System.Drawing.Size(62, 13);
             this.max_speed_readout_lbl.TabIndex = 7;
-            this.max_speed_readout_lbl.Text = "label5";
+            this.max_speed_readout_lbl.Text = "Set CPI first";
             // 
             // cpi_readout_lbl
             // 
@@ -125,9 +125,9 @@
             this.current_speed_readout_lbl.AutoSize = true;
             this.current_speed_readout_lbl.Location = new System.Drawing.Point(133, 193);
             this.current_speed_readout_lbl.Name = "current_speed_readout_lbl";
-            this.current_speed_readout_lbl.Size = new System.Drawing.Size(35, 13);
+            this.current_speed_readout_lbl.Size = new System.Drawing.Size(62, 13);
             this.current_speed_readout_lbl.TabIndex = 9;
-            this.current_speed_readout_lbl.Text = "label5";
+            this.current_speed_readout_lbl.Text = "Set CPI first";
             // 
             // reset_btn
             // 
@@ -137,6 +137,7 @@
             this.reset_btn.TabIndex = 10;
             this.reset_btn.Text = "Reset";
             this.reset_btn.UseVisualStyleBackColor = true;
+            this.reset_btn.Click += new System.EventHandler(this.reset);
             // 
             // MouseSpeedometerForm
             // 

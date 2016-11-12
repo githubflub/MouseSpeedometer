@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace MouseSpeedometer
 {
-    static class StartHere
+    static class MainEntryPoint
     {
         /// <summary>
         /// The main entry point for the application.
