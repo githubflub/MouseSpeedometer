@@ -112,5 +112,19 @@ namespace MouseSpeedometer
         {
             mouse.reset(); 
         }
+
+        private void set_cpi_input_enter(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                /**
+                 * If I don't include e.Handled = true in the code, 
+                 * pressing enter will sometimes result in an error beep. 
+                 * I include it so that doesn't happen. 
+                 */ 
+                e.Handled = true; 
+                set_cpi_button_click(sender, e); 
+            }
+        }
     }
 }

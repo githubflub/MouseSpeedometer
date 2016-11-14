@@ -47,6 +47,7 @@
             this.set_cpi_input.Name = "set_cpi_input";
             this.set_cpi_input.Size = new System.Drawing.Size(100, 20);
             this.set_cpi_input.TabIndex = 0;
+            this.set_cpi_input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.set_cpi_input_enter);
             // 
             // set_cpi_btn
             // 
