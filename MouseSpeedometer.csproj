@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <BaseIntermediateOutputPath>bin\Intermediates\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,17 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MouseDataPacket.cs" />
-    <Compile Include="MouseModel.cs" />
-    <Compile Include="MouseSpeedometerForm.cs">
+    <Compile Include="src\MouseDataPacket.cs" />
+    <Compile Include="src\MouseModel.cs" />
+    <Compile Include="src\MouseSpeedometerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MouseSpeedometerForm.Designer.cs">
+    <Compile Include="src\MouseSpeedometerForm.Designer.cs">
       <DependentUpon>MouseSpeedometerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainEntryPoint.cs" />
+    <Compile Include="src\MainEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MouseSpeedometerForm.resx">
+    <EmbeddedResource Include="src\MouseSpeedometerForm.resx">
       <DependentUpon>MouseSpeedometerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

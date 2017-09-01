@@ -1,3 +1,16 @@
+# git procedure to remove file from repo
+# git rm --cached *.ext file.txt folder
+# git add . 
+# git commit -m "removed files/folder"
+# git push origin master
+
+# Visual Studio
+.vs
+bin
+
+
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
