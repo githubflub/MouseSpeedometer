@@ -7,6 +7,7 @@
 # Visual Studio
 .vs
 bin
+*.csproj.user
 
 
 
