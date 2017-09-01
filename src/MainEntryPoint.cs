@@ -9,7 +9,7 @@ namespace MouseSpeedometer
     static class MainEntryPoint
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// The main entry point for the application. Mhm
         /// </summary>
         [STAThread]
         static void Main()
